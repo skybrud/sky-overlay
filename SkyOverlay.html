@@ -1,0 +1,26 @@
+<div
+	:class="['sky-overlay', name, {active: active}]"
+	:style="overlayStyle"
+>
+	<transition
+		name="sky-overlay"
+	>
+		<div
+			class="sky-overlay-container"
+			v-if="active"
+		>
+
+			<div class="sky-overlay-content">
+				<div class="sky-overlay-close">
+					<button
+						class="sky-overlay-close-button"
+						@click="toggle"
+					>
+						<SvgClose />
+					</button>
+				</div>
+				<slot />
+			</div>
+		</div>
+	</transition>
+</div>
