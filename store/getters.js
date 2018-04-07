@@ -13,6 +13,14 @@ const getters = {
 
 		return returnValue;
 	},
+	isActive(state) {
+		return (key) => {
+			if (key in state.overlays) {
+				return state.overlays[key].active;
+			}
+			return false;
+		};
+	},
 	hasActive(state) {
 		return Object.keys(state.overlays).reduce((previous, key) => {
 			if (!previous) {
@@ -21,11 +29,8 @@ const getters = {
 			return previous;
 		}, false);
 	},
-	lastScrollY(state) {
-		return state.lastScrollY;
-	},
-	pageWrapStyle(state) {
-		return state.pageWrapStyle;
+	lastPageScrollY(state) {
+		return state.lastPageScrollY;
 	},
 };
 

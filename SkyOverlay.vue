@@ -3,27 +3,49 @@ export default {
 	props: ['name'],
 	data() {
 		return {
-			overlayStyle: {
-				// visibility: 'hidden',
-				position: 'absolute',
-				top: 0,
-			},
+			lastOverlayScrollY: 0,
+			animating: '',
 		};
 	},
 	computed: {
 		active() {
-			// TODO: Try getting overlay name directly from vuex store
-			const overlays = this.$store.getters['SkyOverlay/overlays'];
-
-			if (overlays && this.name in overlays) {
-				return overlays[this.name].active;
+			return this.$store.getters['SkyOverlay/isActive']
+				? this.$store.getters['SkyOverlay/isActive'](this.name)
+				: false;
+		},
+		lastPageScrollY() {
+			return this.$store.getters['SkyOverlay/lastPageScrollY'];
+		},
+		overlayStyle() {
+			if (this.active) {
+				return {
+					position: 'absolute',
+				};
 			}
-			return false;
+			return {
+				position: 'fixed',
+			};
+		},
+		overlayContentStyle() {
+			if (this.animating === 'leave') {
+				return {
+					position: 'relative',
+					top: `${-this.lastOverlayScrollY}px`,
+				};
+			}
+			return {
+				position: 'relative',
+			};
 		},
 	},
 	watch: {
 		$route() {
 			this.toggle(false);
+		},
+		active(val) {
+			if (!val) {
+				this.$set(this, 'lastOverlayScrollY', window.pageYOffset);
+			}
 		},
 	},
 	methods: {
@@ -32,28 +54,22 @@ export default {
 				name: this.name,
 				active: state,
 			});
-
-			if (state) {
-				this.$set(this, 'overlayStyle', {
-					// visibility: 'visible',
-					position: 'absolute',
-					top: 0,
-				});
-			} else {
-				this.$set(this, 'overlayStyle', {
-					// visibility: 'visible',
-					position: 'fixed',
-					top: `${-window.pageYOffset}px`,
-				});
-			}
 		},
-		afterLeave(el, done) {
-			this.overlayStyle = {
-				// visibility: 'hidden',
-				// position: 'absolute',
-				top: '',
-			};
-			done();
+		beforeEnter() {
+			document.body.classList.add('sky-overlay-active');
+			document.body.classList.add(this.name);
+			this.$set(this, 'animating', 'enter');
+		},
+		afterEnter() {
+			this.$set(this, 'animating', '');
+		},
+		beforeLeave() {
+			this.$set(this, 'animating', 'leave');
+			document.body.classList.remove('sky-overlay-active');
+			document.body.classList.remove(this.name);
+		},
+		afterLeave() {
+			this.$set(this, 'animating', '');
 		},
 	},
 	beforeMount() {

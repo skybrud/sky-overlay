@@ -1,16 +1,9 @@
 <script>
-import anime from 'animejs';
-
 export default {
 	props: {
 		name: {
 			type: String,
 			required: true,
-		},
-		scrollToTop: {
-			type: Boolean,
-			required: false,
-			default: false,
 		},
 		setActive: {
 			type: [String, Boolean],
@@ -37,25 +30,7 @@ export default {
 	},
 	methods: {
 		click() {
-			if (this.scrollToTop) {
-				const windowObj = {
-					scrollY: window.pageYOffset,
-				};
-				anime({
-					duration: Math.min(1000, windowObj.scrollY),
-					targets: windowObj,
-					scrollY: 0,
-					easing: 'easeOutCubic',
-					update: () => {
-						window.scrollTo(0, windowObj.scrollY);
-					},
-					complete: () => {
-						this.toggleOverlay();
-					},
-				});
-			} else {
-				this.toggleOverlay();
-			}
+			this.toggleOverlay();
 		},
 		toggleOverlay() {
 			const payload = {

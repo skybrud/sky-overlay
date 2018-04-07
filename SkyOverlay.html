@@ -1,25 +1,37 @@
 <div
-	:class="['sky-overlay', name, {active: active}]"
+	:class="['sky-overlay', name, {
+		active: active,
+		'sky-overlay-enter': animating === 'enter',
+		'sky-overlay-leave': animating === 'leave',
+	}]"
 	:style="overlayStyle"
 >
 	<transition
-		name="sky-overlay"
+		name="sky-overlay-animate"
+		@before-enter="beforeEnter"
+		@after-enter="afterEnter"
+		@before-leave="beforeLeave"
+		@after-leave="afterLeave"
 	>
 		<div
-			class="sky-overlay-container"
 			v-if="active"
+			class="sky-overlay-container"
+			:style="overlayContentStyle"
 		>
-
-			<div class="sky-overlay-content">
-				<div class="sky-overlay-close">
-					<button
-						class="sky-overlay-close-button"
-						@click="toggle"
-					>
-						<SvgClose />
-					</button>
+			<div class="sky-overlay-content-wrap">
+				<div class="sky-overlay-content">
+					<div class="sky-overlay-close">
+						<button
+							class="sky-overlay-close-button"
+							@click="toggle"
+						>
+							<slot name="close">
+								x
+							</slot>
+						</button>
+					</div>
+					<slot />
 				</div>
-				<slot />
 			</div>
 		</div>
 	</transition>

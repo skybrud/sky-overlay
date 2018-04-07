@@ -1,3 +1,12 @@
-<div class="page-wrap" :style="$store.getters['SkyOverlay/pageWrapStyle']">
-	<slot />
+<div
+	:class="['page-wrap', {
+		'sky-overlay-active': overlaysActive
+	}]"
+>
+	<div
+		:style="overlaysActiveStyle"
+		class="page-wrap-content"
+	>
+		<slot />
+	</div>
 </div>

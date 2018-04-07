@@ -1,12 +1,6 @@
 const state = {
 	overlays: {},
-	pageWrapStyle: {
-		position: '',
-		top: '',
-		left: '',
-	},
-	lastScrollY: null,
-	// lastScrollY: window.pageYOffset,
+	lastPageScrollY: null,
 };
 
 export default state;
