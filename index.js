@@ -1,18 +1,30 @@
-import Vue from 'vue';
-import Store from 'store';
-
 import SkyOverlayStore from './store';
 import SkyOverlay from './SkyOverlay';
-import SkyOverlayToggle from './SkyOverlayToggle';
 import PageWrap from './PageWrap';
+import SkyOverlayToggle from './SkyOverlayToggle';
 
-Store.addModule('SkyOverlay', SkyOverlayStore);
+const defaults = {
+	registerComponents: true,
+	store: null,
+};
 
-// Main component
-Vue.component('SkyOverlay', SkyOverlay);
+export default {
+	install(Vue, options) {
+		const { registerComponents, store } = Object.assign({}, defaults, options);
 
-// Sub components
-Vue.component('PageWrap', PageWrap);
-Vue.component('SkyOverlayToggle', SkyOverlayToggle);
+		if (store) {
+			store.registerModule('SkyOverlay', SkyOverlayStore);
 
-export default SkyOverlay;
+			if (registerComponents) {
+				// Main component
+				Vue.component('SkyOverlay', SkyOverlay);
+
+				// Sub components
+				Vue.component('PageWrap', PageWrap);
+				Vue.component('SkyOverlayToggle', SkyOverlayToggle);
+			}
+		} else if (process.env.NODE_ENV !== 'production') {
+			console.warn('[SkyOverlay] Not installed. Provide a vuex store, ie.: Vue.plugin(SkyOverlay, { store: myStore })');
+		}
+	},
+};
