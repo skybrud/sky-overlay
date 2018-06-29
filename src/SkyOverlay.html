@@ -1,5 +1,5 @@
 <div
-	:class="['sky-overlay', name, {
+	:class="['sky-overlay', id, {
 		active: active,
 		'sky-overlay-enter': animating === 'enter',
 		'sky-overlay-leave': animating === 'leave',
@@ -20,12 +20,17 @@
 		>
 			<div class="sky-overlay-content-wrap">
 				<div class="sky-overlay-content">
-					<div class="sky-overlay-close">
+					<div
+						v-if="closeButton"
+						class="sky-overlay-close"
+					>
 						<button
 							class="sky-overlay-close-button"
 							@click="toggle"
 						>
-							<slot name="close">
+							<slot
+								name="close"
+							>
 								x
 							</slot>
 						</button>

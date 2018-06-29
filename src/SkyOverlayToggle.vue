@@ -1,7 +1,9 @@
 <script>
+import SkyOverlayStore from './SkyOverlayStore';
+
 export default {
 	props: {
-		name: {
+		targetId: {
 			type: String,
 			required: true,
 		},
@@ -11,21 +13,9 @@ export default {
 			required: false,
 		},
 	},
-	data() {
-		return {
-			checkGlobalStore: false,
-		};
-	},
 	computed: {
 		active() {
-			if (this.checkGlobalStore) {
-				const overlays = this.$store.getters['SkyOverlay/overlays'];
-				if (overlays && this.name in overlays) {
-					return overlays[this.name].active;
-				}
-			}
-
-			return false;
+			return SkyOverlayStore.isActive(this.targetId);
 		},
 	},
 	methods: {
@@ -34,7 +24,7 @@ export default {
 		},
 		toggleOverlay() {
 			const payload = {
-				name: this.name,
+				id: this.targetId,
 				active: undefined,
 			};
 
@@ -46,11 +36,8 @@ export default {
 				}
 			}
 
-			this.$store.dispatch('SkyOverlay/toggle', payload);
+			SkyOverlayStore.$emit('toggle', payload);
 		},
-	},
-	mounted() {
-		this.checkGlobalStore = true;
 	},
 };
 </script>

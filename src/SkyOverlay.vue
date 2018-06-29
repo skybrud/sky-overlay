@@ -1,6 +1,11 @@
 <script>
+import SkyOverlayStore from './SkyOverlayStore';
+
 export default {
-	props: ['name'],
+	props: {
+		id: [String, Number],
+		closeButton: Boolean,
+	},
 	data() {
 		return {
 			lastOverlayScrollY: 0,
@@ -8,13 +13,14 @@ export default {
 		};
 	},
 	computed: {
+		overlays() {
+			return SkyOverlayStore.overlays;
+		},
 		active() {
-			return this.$store.getters['SkyOverlay/isActive']
-				? this.$store.getters['SkyOverlay/isActive'](this.name)
-				: false;
+			return SkyOverlayStore.isActive(this.id);
 		},
 		lastPageScrollY() {
-			return this.$store.getters['SkyOverlay/lastPageScrollY'];
+			return SkyOverlayStore.lastPageScrollY;
 		},
 		overlayStyle() {
 			if (this.active) {
@@ -50,14 +56,14 @@ export default {
 	},
 	methods: {
 		toggle(state) {
-			this.$store.dispatch('SkyOverlay/toggle', {
-				name: this.name,
+			SkyOverlayStore.$emit('toggle', {
+				id: this.id,
 				active: state,
 			});
 		},
 		beforeEnter() {
 			document.body.classList.add('sky-overlay-active');
-			document.body.classList.add(this.name);
+			document.body.classList.add(this.id);
 			this.$set(this, 'animating', 'enter');
 		},
 		afterEnter() {
@@ -66,17 +72,17 @@ export default {
 		beforeLeave() {
 			this.$set(this, 'animating', 'leave');
 			document.body.classList.remove('sky-overlay-active');
-			document.body.classList.remove(this.name);
+			document.body.classList.remove(this.id);
 		},
 		afterLeave() {
 			this.$set(this, 'animating', '');
 		},
 	},
 	beforeMount() {
-		this.$store.commit('SkyOverlay/REGISTER', this.name);
+		SkyOverlayStore.register(this.id);
 	},
 	beforeDestroy() {
-		this.$store.commit('SkyOverlay/UNREGISTER', this.name);
+		SkyOverlayStore.unregister(this.id);
 	},
 };
 </script>

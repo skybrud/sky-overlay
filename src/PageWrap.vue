@@ -1,11 +1,13 @@
 <script>
+import SkyOverlayStore from './SkyOverlayStore';
+
 export default {
 	computed: {
 		lastPageScrollY() {
-			return this.$store.getters['SkyOverlay/lastPageScrollY'];
+			return SkyOverlayStore.lastPageScrollY;
 		},
 		overlaysActive() {
-			return this.$store.getters['SkyOverlay/hasActive'];
+			return SkyOverlayStore.hasActive;
 		},
 		overlaysActiveStyle() {
 			if (this.overlaysActive) {
@@ -19,7 +21,7 @@ export default {
 	watch: {
 		overlaysActive(value) {
 			if (value) {
-				this.$store.commit('SkyOverlay/UPDATE_LAST_PAGE_SCROLL');
+				SkyOverlayStore.updateLastPageScroll();
 				window.addEventListener('keyup', this.keyup);
 				this.$nextTick(() => {
 					window.scrollTo(0, 0);
@@ -43,7 +45,7 @@ export default {
 			];
 			// Close all overlays on ESC key
 			if (event.keyCode === 27 && !exclude.includes(event.target.tagName.toLowerCase())) {
-				this.$store.dispatch('SkyOverlay/toggleAll', false);
+				SkyOverlayStore.$emit('toggleAll');
 			}
 		},
 	},
