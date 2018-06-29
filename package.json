@@ -1,7 +1,7 @@
 {
   "name": "sky-overlay",
   "version": "0.0.1",
-  "description": "Vue component for creating search",
+  "description": "Simple module to wrap content to be displayed in a overlay",
   "main": "dist/skyoverlay.min.js",
   "scripts": {
     "build": "rimraf ./dist && webpack --config ./webpack.config.js",
