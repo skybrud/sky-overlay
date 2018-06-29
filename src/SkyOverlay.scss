@@ -1,5 +1,3 @@
-@import '~styles/variables';
-
 .sky-overlay {
 	position: absolute;
 	top: 0;
@@ -8,7 +6,6 @@
 	min-height: 100.1vh;
 	overflow: hidden;
 	z-index: 20;
-	// text-align: left;
 	pointer-events: none;
 
 	&.active {

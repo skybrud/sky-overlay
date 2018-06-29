@@ -1,4 +1,4 @@
-import SkyOverlayStore from './SkyOverlayStore.vue';
+import SkyOverlayStore from './SkyOverlayStore';
 import SkyOverlay from './SkyOverlay.vue';
 import PageWrap from './PageWrap.vue';
 import SkyOverlayToggle from './SkyOverlayToggle.vue';
