@@ -9274,10 +9274,7 @@ exports.default = {
 			this.toggle(false);
 		},
 		active: function active(val) {
-			if (val) {
-				this.$emit('open');
-			} else {
-				this.$emit('close');
+			if (!val) {
 				this.$set(this, 'lastOverlayScrollY', window.pageYOffset);
 			}
 		}
@@ -9290,24 +9287,20 @@ exports.default = {
 			});
 		},
 		beforeEnter: function beforeEnter() {
-			this.$emit('before-enter');
 			document.body.classList.add('sky-overlay-active');
 			document.body.classList.add(this.id);
 			this.$set(this, 'animating', 'enter');
 		},
 		afterEnter: function afterEnter() {
 			this.$set(this, 'animating', '');
-			this.$emit('after-enter');
 		},
 		beforeLeave: function beforeLeave() {
-			this.$emit('before-leave');
 			this.$set(this, 'animating', 'leave');
 			document.body.classList.remove('sky-overlay-active');
 			document.body.classList.remove(this.id);
 		},
 		afterLeave: function afterLeave() {
 			this.$set(this, 'animating', '');
-			this.$emit('after-leave');
 		}
 	},
 	beforeMount: function beforeMount() {
