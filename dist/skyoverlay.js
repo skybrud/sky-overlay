@@ -9398,7 +9398,7 @@ exports = module.exports = __webpack_require__(15)(false);
 
 
 // module
-exports.push([module.i, "\n.page-wrap {\n  position: relative;\n  width: 100vw;\n  overflow: hidden;\n}\n.page-wrap.sky-overlay-active {\n    position: absolute;\n    top: 0;\n    bottom: 0;\n    left: 0;\n}\n.page-wrap-content {\n  position: relative;\n  top: 0;\n  left: 0;\n  width: 100vw;\n}\n.sky-overlay-active .page-wrap-content {\n    position: absolute;\n}\n", ""]);
+exports.push([module.i, "\n.page-wrap {\n  position: relative;\n  width: 100vw;\n  overflow: hidden;\n}\n.page-wrap.sky-overlay-active {\n    position: absolute;\n    top: 0;\n    left: 0;\n    height: 100.1vh;\n}\n.page-wrap-content {\n  position: relative;\n  top: 0;\n  left: 0;\n  width: 100vw;\n}\n.sky-overlay-active .page-wrap-content {\n    position: absolute;\n}\n", ""]);
 
 // exports
 
