@@ -97,6 +97,29 @@ The `<SkyOverlay />` component is animatable using Vue [transitions](https://vue
 }
 ```
 
+### Opening overlays programmatically
+As an alternative to the `<SkyOverlayTrigger />` component any overlay instances can also be toggled programmatically using `$SkyOvelay` exposed in the global Vue scope.
+```js
+Vue.$SkyOverlay.toggle({ id: 'myOverlay' }); // 'myOverlay' is toggled to the reverse of its current open state
+Vue.$SkyOverlay.toggle({ id: 'myOverlay', active: false }); // 'myOverlay' is closed if open
+```
+Which of course also means it works inside any component:
+```js
+export default {
+	// ...
+	computed() {
+		myOverlayState() {
+			return this.$SkyOverlay.isActive('myOverlay'); // True if overlay is open
+		},
+	},
+	created() {
+		this.$SkyOverlay.toggleAll(false); // Force all overlays to close
+		this.$SkyOverlay.toggle({ id: 'myOverlay', active: true }); // Open specific overlay
+	},
+	// ...
+});
+```
+
 ## Credits
 This module is made by the Frontenders at [skybrud.dk](http://www.skybrud.dk/). Feel free to use it in any way you want. Feedback, questions and bugreports should be posted as issues. Pull-requests appreciated!
 

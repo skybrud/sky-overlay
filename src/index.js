@@ -26,5 +26,11 @@ export default {
 			Vue.component('PageWrap', PageWrap);
 			Vue.component('SkyOverlayToggle', SkyOverlayToggle);
 		}
+
+		Vue.prototype.$SkyOverlay = {
+			isActive: SkyOverlayStore.isActive,
+			toggle: SkyOverlayStore.toggle,
+			toggleAll: SkyOverlayStore.toggleAll,
+		};
 	},
 };
