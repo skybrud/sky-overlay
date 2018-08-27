@@ -68,6 +68,7 @@ export default {
 		},
 		afterEnter() {
 			this.$set(this, 'animating', '');
+			this.$el.focus();
 		},
 		beforeLeave() {
 			this.$set(this, 'animating', 'leave');

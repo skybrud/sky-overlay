@@ -9299,6 +9299,7 @@ exports.default = {
 		},
 		afterEnter: function afterEnter() {
 			this.$set(this, 'animating', '');
+			this.$el.focus();
 		},
 		beforeLeave: function beforeLeave() {
 			this.$set(this, 'animating', 'leave');
@@ -9328,7 +9329,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       'sky-overlay-enter': _vm.animating === 'enter',
       'sky-overlay-leave': _vm.animating === 'leave',
     }],
-    style: (_vm.overlayStyle)
+    style: (_vm.overlayStyle),
+    attrs: {
+      "tabindex": "-1"
+    }
   }, [_c('transition', {
     attrs: {
       "name": "sky-overlay-animate"
