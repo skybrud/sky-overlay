@@ -9299,6 +9299,9 @@ exports.default = {
 		},
 		afterEnter: function afterEnter() {
 			this.$set(this, 'animating', '');
+
+			this.$el.style.outline = 'none';
+			this.$el.addEventListener('blur', this.onBlur);
 			this.$el.focus();
 		},
 		beforeLeave: function beforeLeave() {
@@ -9308,6 +9311,12 @@ exports.default = {
 		},
 		afterLeave: function afterLeave() {
 			this.$set(this, 'animating', '');
+		},
+		onBlur: function onBlur(event) {
+			if (document.hasFocus()) {
+				event.target.style.outline = '';
+				event.target.removeEventListener('blur', this.onBlur);
+			}
 		}
 	},
 	beforeMount: function beforeMount() {

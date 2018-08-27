@@ -68,6 +68,9 @@ export default {
 		},
 		afterEnter() {
 			this.$set(this, 'animating', '');
+			// Supress focus styles while $el is in focus (remove on blur)
+			this.$el.style.outline = 'none';
+			this.$el.addEventListener('blur', this.onBlur);
 			this.$el.focus();
 		},
 		beforeLeave() {
@@ -77,6 +80,14 @@ export default {
 		},
 		afterLeave() {
 			this.$set(this, 'animating', '');
+		},
+		onBlur(event) {
+			// Blur event is triggered on window blur too - only stop
+			// supressing focus styles if window in focus
+			if (document.hasFocus()) {
+				event.target.style.outline = '';
+				event.target.removeEventListener('blur', this.onBlur);
+			}
 		},
 	},
 	beforeMount() {
