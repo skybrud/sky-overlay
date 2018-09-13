@@ -1,4 +1,4 @@
-import SkyOverlayStore from './SkyOverlayStore';
+// import SkyOverlayStore from './SkyOverlayStore';
 
 export default {
 	name: 'SkyOverlayToggle',
@@ -15,7 +15,7 @@ export default {
 	},
 	computed: {
 		active() {
-			return SkyOverlayStore.isActive(this.targetId);
+			return this.$SkyOverlay.isActive(this.targetId);
 		},
 	},
 	methods: {
@@ -36,7 +36,7 @@ export default {
 				}
 			}
 
-			SkyOverlayStore.$emit('toggle', payload);
+			this.$SkyOverlay.$emit('toggle', payload);
 		},
 	},
 };

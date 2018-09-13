@@ -2,100 +2,108 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+// import Vue from 'vue';
 
-var Vue = _interopDefault(require('vue'));
-
-const SkyOverlayStore = new Vue({
-	data() {
-		return {
-			overlays: {},
-			lastPageScrollY: null,
-		};
-	},
-	computed: {
-		activeOverlays() {
-			return Object.keys(this.overlays)
-				.map(key => this.overlays[key])
-				.filter(overlay => overlay.active);
+function SkyOverlayStore(Vue) {
+	const instance = new Vue({
+		data() {
+			return {
+				overlays: {},
+				lastPageScrollY: null,
+			};
 		},
-		hasActive() {
-			return this.activeOverlays.length > 0;
+		computed: {
+			activeOverlays() {
+				return Object.keys(this.overlays)
+					.map(key => this.overlays[key])
+					.filter(overlay => overlay.active);
+			},
+			hasActive() {
+				return this.activeOverlays.length > 0;
+			},
 		},
-	},
-	created() {
-		this.$on('toggle', this.toggle);
-		this.$on('toggleAll', this.toggleAll);
-	},
-	methods: {
-		register(id) {
-			if (this.overlays[id]) {
-				console.warn(`[SkyOverlay] Replaced overlay with id '${id}' because similar overlay id already exists`);
-			}
-			this.$set(this.overlays, id, {
-				active: false,
-			});
+		created() {
+			this.$on('toggle', this.toggle);
+			this.$on('toggleAll', this.toggleAll);
 		},
-		unregister(id) {
-			if (this.overlays[id]) {
-				this.$delete(this.overlays, id);
-			} else {
-				console.warn(`[SkyOverlay] tried to unregister overlay with id '${id}' while it is not registered`);
-			}
-		},
-		getState(key) {
-			return this.states[key];
-		},
-		isActive(key) {
-			if (key in this.overlays) {
-				return this.overlays[key].active;
-			}
-			return false;
-		},
-		toggle({ id, active }) {
-			// only toggle if overlay with id exists + is not currently transitioning its state
-			if (this.overlays[id]) {
-				let newActiveState = !this.overlays[id].active;
-
-				if (typeof active === 'boolean') {
-					newActiveState = active;
+		methods: {
+			register(id) {
+				if (this.overlays[id]) {
+					console.warn(`[SkyOverlay] Replaced overlay with id '${id}' because similar overlay id already exists`);
 				}
+				this.$set(this.overlays, id, {
+					active: false,
+				});
+			},
+			unregister(id) {
+				if (this.overlays[id]) {
+					this.$delete(this.overlays, id);
+				} else {
+					console.warn(`[SkyOverlay] tried to unregister overlay with id '${id}' while it is not registered`);
+				}
+			},
+			getState(key) {
+				return this.states[key];
+			},
+			isActive(key) {
+				if (key in this.overlays) {
+					return this.overlays[key].active;
+				}
+				return false;
+			},
+			toggle({ id, active }) {
+				// only toggle if overlay with id exists + is not currently transitioning its state
+				if (this.overlays[id]) {
+					let newActiveState = !this.overlays[id].active;
 
-				if (newActiveState !== this.overlays[id].active) {
-					this.overlays[id].active = newActiveState;
+					if (typeof active === 'boolean') {
+						newActiveState = active;
+					}
 
-					// Close all other overlays
-					for (const key in this.overlays) {
-						if (key !== id) {
-							this.overlays[key].active = false;
+					if (newActiveState !== this.overlays[id].active) {
+						this.overlays[id].active = newActiveState;
+
+						// Close all other overlays
+						for (const key in this.overlays) {
+							if (key !== id) {
+								this.overlays[key].active = false;
+							}
 						}
 					}
+				} else {
+					console.warn(`[SkyOverlay] Cannot toggle overlay with id '${id}' because it does not exist`);
 				}
-			} else {
-				console.warn(`[SkyOverlay] Cannot toggle overlay with id '${id}' because it does not exist`);
-			}
-		},
-		toggleAll(active) {
-			if (typeof active === 'boolean') {
-				Object.keys(this.overlays).forEach((key) => {
-					this.toggle({
-						id: key,
-						active,
+			},
+			toggleAll(active) {
+				if (typeof active === 'boolean') {
+					Object.keys(this.overlays).forEach((key) => {
+						this.toggle({
+							id: key,
+							active,
+						});
 					});
-				});
-			} else {
-				Object.keys(this.overlays).forEach((key) => {
-					this.toggle({
-						id: key,
+				} else {
+					Object.keys(this.overlays).forEach((key) => {
+						this.toggle({
+							id: key,
+						});
 					});
-				});
-			}
+				}
+			},
+			updateLastPageScroll() {
+				this.lastPageScrollY = window.pageYOffset;
+			},
 		},
-		updateLastPageScroll() {
-			this.lastPageScrollY = window.pageYOffset;
-		},
-	},
-});
+	});
+
+	Object.defineProperty(Vue.prototype, '$SkyOverlay', {
+		get() {
+			return instance
+		}
+	});
+}
+
+// import SkyOverlayStore from './SkyOverlayStore';
 
 var script = {
 	name: 'SkyOverlay',
@@ -111,13 +119,13 @@ var script = {
 	},
 	computed: {
 		overlays() {
-			return SkyOverlayStore.overlays;
+			return this.$SkyOverlay.overlays;
 		},
 		active() {
-			return SkyOverlayStore.isActive(this.id);
+			return this.$SkyOverlay.isActive(this.id);
 		},
 		lastPageScrollY() {
-			return SkyOverlayStore.lastPageScrollY;
+			return this.$SkyOverlay.lastPageScrollY;
 		},
 		overlayStyle() {
 			if (this.active) {
@@ -153,7 +161,7 @@ var script = {
 	},
 	methods: {
 		toggle(state) {
-			SkyOverlayStore.$emit('toggle', {
+			this.$SkyOverlay.$emit('toggle', {
 				id: this.id,
 				active: state,
 			});
@@ -188,10 +196,10 @@ var script = {
 		},
 	},
 	beforeMount() {
-		SkyOverlayStore.register(this.id);
+		this.$SkyOverlay.register(this.id);
 	},
 	beforeDestroy() {
-		SkyOverlayStore.unregister(this.id);
+		this.$SkyOverlay.unregister(this.id);
 	},
 };
 
@@ -340,14 +348,16 @@ var __vue_staticRenderFns__ = [];
     __vue_create_injector_ssr__
   );
 
+// import SkyOverlayStore from './SkyOverlayStore';
+
 var script$1 = {
 	name: 'PageWrap',
 	computed: {
 		lastPageScrollY() {
-			return SkyOverlayStore.lastPageScrollY;
+			return this.$SkyOverlay.lastPageScrollY;
 		},
 		overlaysActive() {
-			return SkyOverlayStore.hasActive;
+			return this.$SkyOverlay.hasActive;
 		},
 		overlaysActiveStyle() {
 			if (this.overlaysActive) {
@@ -361,7 +371,7 @@ var script$1 = {
 	watch: {
 		overlaysActive(value) {
 			if (value) {
-				SkyOverlayStore.updateLastPageScroll();
+				this.$SkyOverlay.updateLastPageScroll();
 				window.addEventListener('keyup', this.keyup);
 				this.$nextTick(() => {
 					window.scrollTo(0, 0);
@@ -385,7 +395,7 @@ var script$1 = {
 			];
 			// Close all overlays on ESC key
 			if (event.keyCode === 27 && !exclude.includes(event.target.tagName.toLowerCase())) {
-				SkyOverlayStore.$emit('toggleAll');
+				this.$SkyOverlay.$emit('toggleAll');
 			}
 		},
 	},
@@ -534,6 +544,8 @@ var __vue_staticRenderFns__$1 = [];
     __vue_create_injector_ssr__$1
   );
 
+// import SkyOverlayStore from './SkyOverlayStore';
+
 var script$2 = {
 	name: 'SkyOverlayToggle',
 	props: {
@@ -549,7 +561,7 @@ var script$2 = {
 	},
 	computed: {
 		active() {
-			return SkyOverlayStore.isActive(this.targetId);
+			return this.$SkyOverlay.isActive(this.targetId);
 		},
 	},
 	methods: {
@@ -570,7 +582,7 @@ var script$2 = {
 				}
 			}
 
-			SkyOverlayStore.$emit('toggle', payload);
+			this.$SkyOverlay.$emit('toggle', payload);
 		},
 	},
 };
@@ -634,7 +646,7 @@ const defaults = {
 	registerComponents: true,
 };
 
-function install(Vue$$1, options) {
+function install(Vue, options) {
 	if (install.installed === true) {
 		return;
 	}
@@ -642,19 +654,14 @@ function install(Vue$$1, options) {
 	const { registerComponents } = Object.assign({}, defaults, options);
 
 	if (registerComponents) {
+		Vue.use(SkyOverlayStore);
 		// Main component
-		Vue$$1.component(SkyOverlay.name, SkyOverlay);
+		Vue.component(SkyOverlay.name, SkyOverlay);
 
 		// Sub components
-		Vue$$1.component(PageWrap.name, PageWrap);
-		Vue$$1.component(SkyOverlayToggle.name, SkyOverlayToggle);
+		Vue.component(PageWrap.name, PageWrap);
+		Vue.component(SkyOverlayToggle.name, SkyOverlayToggle);
 	}
-
-	Vue$$1.prototype.$SkyOverlay = {
-		isActive: SkyOverlayStore.isActive,
-		toggle: SkyOverlayStore.toggle,
-		toggleAll: SkyOverlayStore.toggleAll,
-	};
 }
 
 exports.SkyOverlayStore = SkyOverlayStore;

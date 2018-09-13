@@ -22,6 +22,7 @@ export default function install(Vue, options) {
 	const { registerComponents } = Object.assign({}, defaults, options);
 
 	if (registerComponents) {
+		Vue.use(SkyOverlayStore);
 		// Main component
 		Vue.component(SkyOverlay.name, SkyOverlay);
 
@@ -29,10 +30,4 @@ export default function install(Vue, options) {
 		Vue.component(PageWrap.name, PageWrap);
 		Vue.component(SkyOverlayToggle.name, SkyOverlayToggle);
 	}
-
-	Vue.prototype.$SkyOverlay = {
-		isActive: SkyOverlayStore.isActive,
-		toggle: SkyOverlayStore.toggle,
-		toggleAll: SkyOverlayStore.toggleAll,
-	};
 };

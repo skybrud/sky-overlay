@@ -1,13 +1,13 @@
-import SkyOverlayStore from './SkyOverlayStore';
+// import SkyOverlayStore from './SkyOverlayStore';
 
 export default {
 	name: 'PageWrap',
 	computed: {
 		lastPageScrollY() {
-			return SkyOverlayStore.lastPageScrollY;
+			return this.$SkyOverlay.lastPageScrollY;
 		},
 		overlaysActive() {
-			return SkyOverlayStore.hasActive;
+			return this.$SkyOverlay.hasActive;
 		},
 		overlaysActiveStyle() {
 			if (this.overlaysActive) {
@@ -21,7 +21,7 @@ export default {
 	watch: {
 		overlaysActive(value) {
 			if (value) {
-				SkyOverlayStore.updateLastPageScroll();
+				this.$SkyOverlay.updateLastPageScroll();
 				window.addEventListener('keyup', this.keyup);
 				this.$nextTick(() => {
 					window.scrollTo(0, 0);
@@ -45,7 +45,7 @@ export default {
 			];
 			// Close all overlays on ESC key
 			if (event.keyCode === 27 && !exclude.includes(event.target.tagName.toLowerCase())) {
-				SkyOverlayStore.$emit('toggleAll');
+				this.$SkyOverlay.$emit('toggleAll');
 			}
 		},
 	},

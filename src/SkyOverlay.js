@@ -1,4 +1,4 @@
-import SkyOverlayStore from './SkyOverlayStore';
+// import SkyOverlayStore from './SkyOverlayStore';
 
 export default {
 	name: 'SkyOverlay',
@@ -14,13 +14,13 @@ export default {
 	},
 	computed: {
 		overlays() {
-			return SkyOverlayStore.overlays;
+			return this.$SkyOverlay.overlays;
 		},
 		active() {
-			return SkyOverlayStore.isActive(this.id);
+			return this.$SkyOverlay.isActive(this.id);
 		},
 		lastPageScrollY() {
-			return SkyOverlayStore.lastPageScrollY;
+			return this.$SkyOverlay.lastPageScrollY;
 		},
 		overlayStyle() {
 			if (this.active) {
@@ -56,7 +56,7 @@ export default {
 	},
 	methods: {
 		toggle(state) {
-			SkyOverlayStore.$emit('toggle', {
+			this.$SkyOverlay.$emit('toggle', {
 				id: this.id,
 				active: state,
 			});
@@ -91,9 +91,9 @@ export default {
 		},
 	},
 	beforeMount() {
-		SkyOverlayStore.register(this.id);
+		this.$SkyOverlay.register(this.id);
 	},
 	beforeDestroy() {
-		SkyOverlayStore.unregister(this.id);
+		this.$SkyOverlay.unregister(this.id);
 	},
 };
