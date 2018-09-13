@@ -107,7 +107,7 @@ Which of course also means it works inside any component:
 ```js
 export default {
 	// ...
-	computed() {
+	computed: {
 		myOverlayState() {
 			return this.$SkyOverlay.isActive('myOverlay'); // True if overlay is open
 		},
