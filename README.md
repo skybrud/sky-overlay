@@ -37,18 +37,13 @@ The plugin registers 3 components globally:
 ### Import
 ```js
 import Vue from 'vue';
-```
-Different import approaches. The First provides the minified and compiled dist version, the other the raw .vue file.
-The second style is recommended since that is the only way to import the base styling of the module (at least for now).
-```js
 import SkyOverlay from 'sky-overlay';
-import SkyOverlay from '${YOUR-PROJECT-ROOT-PATH}/node_modules/sky-overlay/src/';
-```
-Install as Vue plugin
-```js
+
+// If you want to use the baseline scss add the following line
+import '${YOUR-PROJECT-ROOT-PATH}/node_modules/sky-crop/src/SkyCrop.scss';
+
 Vue.use(SkyOverlay);
 ```
-
 
 
 ### Example template

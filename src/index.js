@@ -14,23 +14,25 @@ export {
 	SkyOverlayToggle,
 };
 
-export default {
-	install(Vue, options) {
-		const { registerComponents } = Object.assign({}, defaults, options);
+export default function install(Vue, options) {
+	if (install.installed === true) {
+		return;
+	}
 
-		if (registerComponents) {
-			// Main component
-			Vue.component('SkyOverlay', SkyOverlay);
+	const { registerComponents } = Object.assign({}, defaults, options);
 
-			// Sub components
-			Vue.component('PageWrap', PageWrap);
-			Vue.component('SkyOverlayToggle', SkyOverlayToggle);
-		}
+	if (registerComponents) {
+		// Main component
+		Vue.component(SkyOverlay.name, SkyOverlay);
 
-		Vue.prototype.$SkyOverlay = {
-			isActive: SkyOverlayStore.isActive,
-			toggle: SkyOverlayStore.toggle,
-			toggleAll: SkyOverlayStore.toggleAll,
-		};
-	},
+		// Sub components
+		Vue.component(PageWrap.name, PageWrap);
+		Vue.component(SkyOverlayToggle.name, SkyOverlayToggle);
+	}
+
+	Vue.prototype.$SkyOverlay = {
+		isActive: SkyOverlayStore.isActive,
+		toggle: SkyOverlayStore.toggle,
+		toggleAll: SkyOverlayStore.toggleAll,
+	};
 };
