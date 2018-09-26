@@ -92,11 +92,7 @@ function SkyOverlayStore(Vue) {
 		},
 	});
 
-	Object.defineProperty(Vue.prototype, '$SkyOverlay', {
-		get() {
-			return instance
-		}
-	});
+	Vue.util.defineReactive(Vue.prototype, '$SkyOverlay', instance);
 }
 
 // import SkyOverlayStore from './SkyOverlayStore';
