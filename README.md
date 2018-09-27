@@ -82,7 +82,6 @@ Add `<PageWrap />` and all instances of `<SkyOverlay />` in your root app compon
 The `<SkyOverlay />` component is animatable using Vue [transitions](https://vuejs.org/v2/guide/transitions.html). The transition is named `sky-overlay-animate` and is executed on the div with the class `.sky-overlay-container`. Basic example below:
 
 ```scss
-
 .sky-overlay-container {
 	background-color: green;
 
