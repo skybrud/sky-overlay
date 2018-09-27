@@ -79,16 +79,21 @@ Add `<PageWrap />` and all instances of `<SkyOverlay />` in your root app compon
 ```
 
 ### Animation
-The `<SkyOverlay />` component is animatable using Vue [transitions](https://vuejs.org/v2/guide/transitions.html). The transition is named `sky-overlay-animate`. Basic example below:
+The `<SkyOverlay />` component is animatable using Vue [transitions](https://vuejs.org/v2/guide/transitions.html). The transition is named `sky-overlay-animate` and is executed on the div with the class `.sky-overlay-container`. Basic example below:
 
 ```scss
-.sky-overlay-animate-enter-active,
-.sky-overlay-animate-leave-active {
-	transition: opacity .5s;
-}
-.sky-overlay-animate-enter,
-.sky-overlay-animate-leave-to {
-	opacity: 0;
+
+.sky-overlay-container {
+	background-color: green;
+
+	&.sky-overlay-animate-enter-active,
+	&.sky-overlay-animate-leave-active {
+		transition: opacity .5s;
+	}
+	&.sky-overlay-animate-enter,
+	&.sky-overlay-animate-leave-to {
+		opacity: 0;
+	}
 }
 ```
 
@@ -117,6 +122,3 @@ export default {
 
 ## Credits
 This module is made by the Frontenders at [skybrud.dk](http://www.skybrud.dk/). Feel free to use it in any way you want. Feedback, questions and bugreports should be posted as issues. Pull-requests appreciated!
-
-
-
