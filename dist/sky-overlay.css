@@ -1,0 +1,52 @@
+.sky-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  min-height: 100.1vh;
+  overflow: hidden;
+  z-index: 20;
+  pointer-events: none; }
+
+.sky-overlay.active {
+  pointer-events: auto; }
+
+.sky-overlay.sky-overlay-enter, .sky-overlay.sky-overlay-leave {
+  height: 100vh; }
+
+.sky-overlay.sky-overlay-enter .sky-wipe-inner, .sky-overlay.sky-overlay-leave .sky-wipe-inner {
+  height: 100vh; }
+
+.sky-overlay-container {
+  position: relative;
+  top: 0;
+  left: 0;
+  min-height: 100.1vh;
+  overflow: hidden;
+  background-color: #fff; }
+
+.sky-overlay-close {
+  z-index: 2; }
+
+.sky-overlay-content {
+  z-index: 2; }
+
+.page-wrap {
+  position: relative;
+  width: 100vw;
+  overflow: hidden; }
+
+.page-wrap.sky-overlay-active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100.1vh; }
+
+.page-wrap-content {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100vw; }
+
+.sky-overlay-active .page-wrap-content {
+  position: absolute; }

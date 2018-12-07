@@ -21,6 +21,7 @@ export default function SkyOverlayStore(Vue) {
 		created() {
 			this.$on('toggle', this.toggle);
 			this.$on('toggleAll', this.toggleAll);
+			this.$on('closeAll', this.closeAll);
 		},
 		methods: {
 			register(id) {
@@ -71,20 +72,27 @@ export default function SkyOverlayStore(Vue) {
 				}
 			},
 			toggleAll(active) {
+				const keys = Object.keys(this.overlays);
+
 				if (typeof active === 'boolean') {
-					Object.keys(this.overlays).forEach((key) => {
+					keys.forEach((key) => {
 						this.toggle({
 							id: key,
 							active,
 						});
 					});
 				} else {
-					Object.keys(this.overlays).forEach((key) => {
+					keys.forEach((key) => {
 						this.toggle({
 							id: key,
 						});
 					});
 				}
+			},
+			closeAll() {
+				Object.keys(this.overlays)
+					.filter(id => this.overlays[id].active)
+					.forEach(id => this.overlays[id].active = false);
 			},
 			updateLastPageScroll() {
 				this.lastPageScrollY = window.pageYOffset;

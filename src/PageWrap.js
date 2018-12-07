@@ -45,7 +45,7 @@ export default {
 			];
 			// Close all overlays on ESC key
 			if (event.keyCode === 27 && !exclude.includes(event.target.tagName.toLowerCase())) {
-				this.$SkyOverlay.$emit('toggleAll');
+				this.$SkyOverlay.$emit('closeAll');
 			}
 		},
 	},
