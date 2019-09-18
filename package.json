@@ -1,6 +1,6 @@
 {
 	"name": "sky-overlay",
-	"version": "0.2.2",
+	"version": "0.2.3-0",
 	"description": "Vue module for creating page overlays with scrollable content",
 	"main": "./dist/sky-overlay.ssr.js",
 	"module": "./dist/sky-overlay.esm.js",
