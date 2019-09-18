@@ -33,20 +33,21 @@
 
 .page-wrap {
   position: relative;
-  width: 100vw;
+  width: 100%;
   overflow: hidden; }
 
 .page-wrap.sky-overlay-active {
   position: absolute;
   top: 0;
   left: 0;
-  height: 100.1vh; }
+  height: 100.1vh;
+  width: 100vw; }
 
 .page-wrap-content {
   position: relative;
   top: 0;
   left: 0;
-  width: 100vw; }
+  width: 100%; }
 
 .sky-overlay-active .page-wrap-content {
   position: absolute; }
