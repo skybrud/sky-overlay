@@ -1,7 +1,5 @@
 .page-wrap {
-	position: relative;
 	width: 100%;
-	overflow: hidden;
 
 	&.sky-overlay-active {
 		position: absolute;
@@ -9,16 +7,16 @@
 		left: 0;
 		height: 100.1vh;
 		width: 100vw;
+		overflow: hidden;
 	}
 }
 
 .page-wrap-content {
-	position: relative;
-	top: 0;
-	left: 0;
 	width: 100%;
 
 	.sky-overlay-active & {
+		top: 0;
+		left: 0;
 		position: absolute;
 	}
 }
